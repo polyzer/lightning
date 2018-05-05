@@ -72,6 +72,11 @@ class ServerProgram {
   ///////////////////////////////////
   onClientClose (event) {
     this.progDataArray.splice(this.progDataID, 1);
+    let data = JSON.stringify({Type: this.progDataSelf.CONSTANTS.MESSAGES_TYPES.REMOVE_USER, UserID: this.progDataID});
+    for(let i = 0; i < this.progDataSelf.Masters.length; i++)
+    {
+      this.progDataSelf.Masters[i].send(data);
+    }
     console.log("WebSocket Connection was closed. id: " + this.progDataID);
   }
   onClientMessage (event) {

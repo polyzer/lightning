@@ -7,6 +7,7 @@
 class DesktopMasterProgram {
     constructor(){
         this.onWindowResize = this.onWindowResize.bind(this);
+        window.addEventListener("resize", this.onWindowResie);
         this.update = this.update.bind(this);
 
         this.MessagesController = new MessagesController();
@@ -92,8 +93,21 @@ class DesktopMasterProgram {
         let geometry = new THREE.SphereBufferGeometry( 5, 32, 32 );
         let material = new THREE.MeshBasicMaterial( {color: 0xffff00} )
         let mesh = new THREE.Mesh(geometry, material);
+        this.laserBeam	= new THREEx.LaserBeam();
+        this.laserBeam.object3d.add(new THREE.AxesHelper(50));
+//        this.laserBeam.object3d.position.set(10,10,10);
+        this.ContainerObject = new THREE.Object3D();
+        this.laserBeam.object3d.scale.set(20,20,20);
+        this.laserCooked = new THREEx.LaserCooked(this.laserBeam, this.Scene);
+        this.ContainerObject.add(mesh);
+        this.ContainerObject.add(this.laserBeam.object3d);
+        this.Camera.position.set(30,30, 0);
+        this.ContainerObject.add(this.Camera);
+        this.Scene.add(this.ContainerObject);
+
         mesh.add(new THREE.AxesHelper(50));
-        this.Scene.add(mesh);
+
+//        this.Scene.add(this.ContainerObject);
         this.Lights.push(mesh);
 
         console.log("User was add");
@@ -102,7 +116,7 @@ class DesktopMasterProgram {
     IN: json_params = {UserID};
     */
     removeUser(json_params) {
-        this.Scene.remove(this.Lights[json_params.UserID].Mesh);
+        this.Scene.remove(this.Lights[json_params.UserID]);
         this.Lights.splice(json_params.UserID, 1);
         console.log("User was spliced");
     }
@@ -110,15 +124,26 @@ class DesktopMasterProgram {
     IN: json_params = {UserID, Position,Rotation}
     */
     setPosition(json_params) {
-        this.Lights[json_params.UserID].position.copy(json_params.Position);
-        this.Lights[json_params.UserID].rotation.copy(json_params.Rotation);
+        this.ContainerObject.position.copy(json_params.Position);
+        this.ContainerObject.rotation.copy(json_params.Rotation);
+//        this.laserBeam.object3d.rotation.copy(json_params.Rotation);
+        //this.Lights[json_params.UserID].position.copy(json_params.Position);
+        //this.Lights[json_params.UserID].rotation.copy(json_params.Rotation);
     }
 
-    update(){
+    update(nowMsec){
         this.stats.update();
         this.Cubes.forEach(function (each){
             each.rotation.x += 0.1;
         });
+
+        this.lastTimeMsec = this.lastTimeMsec || nowMsec-1000/60;
+		this.deltaMsec = Math.min(200, nowMsec - this.lastTimeMsec);
+        this.lastTimeMsec = nowMsec;
+        if(this.laserCooked)
+            this.laserCooked.update(this.deltaMsec/1000, nowMsec/1000);
+        if(this.Lights.length)
+            this.Camera.lookAt(this.Lights[0].position);
         this.Renderer.render(this.Scene, this.Camera);
         requestAnimationFrame(this.update);
     }
@@ -129,4 +154,6 @@ class DesktopMasterProgram {
         this.Camera.updateProjectionMatrix();
         this.Renderer.setSize( window.innerWidth, window.innerHeight );
     }
+
+
 };
