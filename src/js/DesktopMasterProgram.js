@@ -50,6 +50,14 @@ class DesktopMasterProgram {
                     this.removeUser(data);
                 break;
 
+                case CONSTANTS.MESSAGES_TYPES.FIRE_BUTTON_DOWN:
+                    this.fireButtonDown(data);
+                break;
+
+                case CONSTANTS.MESSAGES_TYPES.FIRE_BUTTON_UP:
+                    this.fireButtonUp(data);
+                break;
+                
 
                 default:
                 throw new Error("sho za huynya???");
@@ -63,8 +71,6 @@ class DesktopMasterProgram {
             Now we need to tell User. that Connection was Closed;
         */
         }.bind(this);
-
-
 
         this.createScene();
         this.update();
@@ -126,10 +132,18 @@ class DesktopMasterProgram {
     setPosition(json_params) {
         this.ContainerObject.position.copy(json_params.Position);
         this.ContainerObject.rotation.copy(json_params.Rotation);
-//        this.laserBeam.object3d.rotation.copy(json_params.Rotation);
+        //this.laserBeam.object3d.rotation.copy(json_params.Rotation);
         //this.Lights[json_params.UserID].position.copy(json_params.Position);
         //this.Lights[json_params.UserID].rotation.copy(json_params.Rotation);
     }
+
+    fireButtonDown(json_params) {
+        this.ContainerObject.add(this.laserBeam.object3d);
+    }
+    fireButtonUp(json_params) {
+        this.ContainerObject.remove(this.laserBeam.object3d);
+    }
+
 
     update(nowMsec){
         this.stats.update();

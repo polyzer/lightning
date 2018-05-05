@@ -20,11 +20,11 @@ class MessagesController {
       Rotation: null
     };
     this.ButtonDownMessageObject = {
-      Type: CONSTANTS.MESSAGES_TYPES.BUTTON_DOWN,
+      Type: CONSTANTS.MESSAGES_TYPES.FIRE_BUTTON_DOWN,
       UserID: null
     }
     this.ButtonUpMessageObject = {
-      Type: CONSTANTS.MESSAGES_TYPES.BUTTON_UP,
+      Type: CONSTANTS.MESSAGES_TYPES.FIRE_BUTTON_UP,
       UserID: null
     }
   }
@@ -69,11 +69,10 @@ class MessagesController {
     this.SetPositionMessageObject.Position = json_params.Position;
     this.SetPositionMessageObject.Rotation = json_params.Rotation;
   }
-  set ButtonDownMessage(json_params){
-
+  set FireButtonDownMessage(json_params){
   }
 
-  set ButtonUpMessage(json_params){
+  set FireButtonUpMessage(json_params){
 
   }
 

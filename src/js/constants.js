@@ -15,8 +15,8 @@ const CONSTANTS = {
      ADD_USER: 0,
      REMOVE_USER: 1,
      SET_POSITION: 2,
-     BUTTON_DOWN: 3,
-     BUTTON_UP: 4,
+     FIRE_BUTTON_DOWN: 3,
+     FIRE_BUTTON_UP: 4,
      ADD_MASTER: 5
    },
    WEB_SOCKET_ADDR : "wss://www.polyzer.org:8081"

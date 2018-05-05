@@ -54,3 +54,26 @@
 	height: 100px;
 	width: 100px;
 }
+
+.LightFireButton {
+	z-index: 10090008899878768765;
+	bottom: 30%;
+	left: 30%;
+	width: 500px;
+	height: 500px;
+	position: absolute;
+	background-image: url("../images/buttons/light.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;		
+}
+.LightFireButton {
+	z-index: 10090008899878768765;
+	bottom: 30%;
+	left: 30%;
+	width: 500px;
+	height: 500px;
+	position: absolute;
+	background-image: url("../images/buttons/light.png");
+	background-size: 100% 100%;
+	background-repeat: no-repeat;		
+}

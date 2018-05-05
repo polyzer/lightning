@@ -9,6 +9,8 @@ class MobileSlaveProgram {
   constructor(){
     //it's a users array, that represents as lights on scene;
     this.update = this.update.bind(this);
+    this.onLightFireButtonTouchStart = this.onLightFireButtonTouchStart.bind(this);
+    this.onLightFireButtonTouchEnd = this.onLightFireButtonTouchEnd.bind(this);
 
     this.AccelParameters = {
       Acceleration: new THREE.Vector3(),
@@ -42,6 +44,19 @@ class MobileSlaveProgram {
                 'Opera Mini|IEMobile|Mobile' , 
               'i');
   
+    this.LightFireButton = document.createElement("div");
+    this.LightFireButton.id = "LightFireButton";
+    this.LightFireButton.classList.add("LightFireButton");
+    this.LightFireButton.dataset.pressed = 0;
+
+    this.LightFireButton.addEventListener("touchstart", this.onLightFireButtonTouchStart);
+    this.LightFireButton.addEventListener("touchend", this.onLightFireButtonTouchEnd);
+    
+    this.LightFireButton.addEventListener("mousedown", this.onLightFireButtonTouchStart);
+    this.LightFireButton.addEventListener("mouseup", this.onLightFireButtonTouchEnd);
+
+    document.body.appendChild(this.LightFireButton);
+    
     if (testExp.test(navigator.userAgent)){
       this.DeviceType = this.DEVICE_TYPES.MOBILE;
     }else{
@@ -129,6 +144,30 @@ class MobileSlaveProgram {
 
     this.AccelParameters.phi = 0;
     this.AccelParameters.theta = 0;    
+  }
+
+  onLightFireButtonTouchStart(event) {
+    /**
+     * Send to Desktop event about LightFireButton touchstart.
+     */
+    if(this.Socket.readyState === WebSocket.OPEN && this.LightFireButton.dataset.pressed === "0")
+    {
+      console.log("down");
+      this.Socket.send(JSON.stringify(this.MessagesController.ButtonDownMessage));
+      this.LightFireButton.dataset.pressed = "1";
+    }
+  }
+
+  onLightFireButtonTouchEnd(event) {
+    /**
+     * Send to Desktop event about LightFireButton touchend.
+     */
+    if(this.Socket.readyState === WebSocket.OPEN && this.LightFireButton.dataset.pressed === "1")
+    {
+      console.log("up");
+      this.Socket.send(JSON.stringify(this.MessagesController.ButtonUpMessage));
+      this.LightFireButton.dataset.pressed = "0";
+    }
 }
 
 };
