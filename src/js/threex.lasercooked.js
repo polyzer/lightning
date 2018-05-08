@@ -1,6 +1,6 @@
 var THREEx = THREEx || {}
 
-THREEx.LaserCooked	= function(laserBeam, scene){
+THREEx.LaserCooked	= function(laserBeam, scene, onLaserShotFunc){
 	// for update loop
 	var updateFcts	= []
 	this.update	= function(){
@@ -8,6 +8,8 @@ THREEx.LaserCooked	= function(laserBeam, scene){
 			updateFct()	
 		})
 	}
+	this.onLaserShotFunc = onLaserShotFunc;
+
 	this.scene = scene;
 	var object3d	= laserBeam.object3d
 
@@ -19,11 +21,11 @@ THREEx.LaserCooked	= function(laserBeam, scene){
 		blending	: THREE.AdditiveBlending,
 	})
 	var sprite	= new THREE.Sprite(material)
-	sprite.scale.x = 0.5;
+	sprite.scale.x = 0.1;
 	sprite.scale.y = 0.5;
 
 	sprite.rotation.y += Math.PI/2;
-	sprite.position.z	= 1-0.01
+	sprite.position.z = 1-0.01
 	object3d.add(sprite)
 
 	// add a point light
@@ -56,7 +58,7 @@ THREEx.LaserCooked	= function(laserBeam, scene){
 
 		var intersects = raycaster.intersectObjects( this.scene.children );
 		if( intersects.length > 0 ){
-
+			this.onLaserShotFunc(intersects[0].object);
 			var position = intersects[0].point
 			var distance = position.distanceTo(raycaster.ray.origin)
 			object3d.scale.z = distance
