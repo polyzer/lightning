@@ -1,0 +1,21 @@
+.code-show-block{
+    position: absolute;
+    width: 70%;
+	height: 90%;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+    margin: auto;
+    
+}
+
+.code-show-block label{
+    font-size: 200%;
+    margin-bottom: 30px;
+}
+
+.code-show-block div{
+	font-size: 400%;
+}

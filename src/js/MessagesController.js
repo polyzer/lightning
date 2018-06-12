@@ -1,17 +1,25 @@
+if(typeof(CONSTANTS) === undefined)
+{
+  CONSTANTS = require("constants");
+}
+
 class MessagesController {
   constructor() {
 
     this.AddMasterMessageObject = {
       Type: CONSTANTS.MESSAGES_TYPES.ADD_MASTER,
-      UserID: null
+      UserID: null,
+      Code: null
     };
     this.AddUserMessageObject = {
       Type: CONSTANTS.MESSAGES_TYPES.ADD_USER,
-      UserID: null
+      UserID: null,
+      Code: null
     };
     this.RemoveUserMessageObject = {
       Type: CONSTANTS.MESSAGES_TYPES.REMOVE_USER,
-      UserID: null
+      UserID: null,
+      Code: null
     };
     this.SetPositionMessageObject = {
       Type: CONSTANTS.MESSAGES_TYPES.SET_POSITION,
@@ -54,6 +62,7 @@ class MessagesController {
 
   set AddMasterMessage(json_params){
     this.AddMasterMessageObject.UserID = json_params.UserID;
+    this.AddMasterMessageObject.Code = json_params.Code;
   }
   set RemoveMasterMessage(json_params){
     this.RemoveMasterMessageObject.UserID = json_params.UserID;

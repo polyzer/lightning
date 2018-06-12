@@ -44,6 +44,7 @@ class DesktopMasterProgram {
         this.SkyBox.Mesh = new THREE.Mesh(this.SkyBox.Geometry, this.SkyBox.Material);
         this.Scene.add(this.SkyBox.Mesh);
 
+        this.CodeController = new CodeController();
 
 
         //it's a users array, that represents as lights on scene;4
@@ -51,8 +52,10 @@ class DesktopMasterProgram {
         this.Socket = new WebSocket(CONSTANTS.WEB_SOCKET_ADDR);
 
         this.Socket.onopen = function (event) {
+            // There we setting up parameters for AddMasterMessage, and send it to server.
+            this.MessagesController.AddMasterMessage.Code = this.CodeController.Code;
             this.Socket.send(JSON.stringify(this.MessagesController.AddMasterMessage));
-            console.log("Socket was open.");    
+            console.log("Socket was open."); 
         }.bind(this);
 
         this.Socket.onmessage = function(event) {
@@ -77,10 +80,19 @@ class DesktopMasterProgram {
                 case CONSTANTS.MESSAGES_TYPES.FIRE_BUTTON_UP:
                     this.fireButtonUp(data);
                 break;
+
+                case CONSTANTS.MESSAGES_TYPES.USER_CODE_IS_SUBMITTED:
+                    this.onCodeSubmit();
+                    this.addUser(data);
+                break;
                 
+                case CONSTANTS.MESSAGES_TYPES.CONTROLLER_IS_DISCONNECTED:
+                    this.onControllerDisconnect();
+                break;
 
                 default:
-                throw new Error("sho za huynya???");
+                    console.log(data.Type);
+                    throw new Error("sho za huynya???");
             }
 
         }.bind(this);
@@ -92,6 +104,31 @@ class DesktopMasterProgram {
         */
         }.bind(this);
 
+    }
+
+    // If Controller is disconnected;
+    onControllerDisconnect()
+    {
+        if(this.Container)
+        {
+            window.alert("Connection with Controller is closed");
+        }
+        console.log("Controller is disconnected");
+    }
+
+    hideContainer(){
+        if(this.Container){
+            this.Container.style.visibility = "hidden";
+
+        }else{
+            throw new Error("We have no Container");
+        }
+    }
+
+    onCodeSubmit()
+    {
+        console.log("code is submitted");
+        this.CodeController.hideCodeViewWindow();
         this.createScene();
         this.update();
     }

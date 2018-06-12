@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF8" />
   <title>SkyFox Light Project</title>
   <link rel="stylesheet" href="src/css/controls-style.css" />
 
@@ -11,14 +12,20 @@
   <script src="./src/js/AxesHelper.js"></script>
   <script src="./src/js/constants.js"></script>
   <script src="./src/js/MessagesController.js"></script>
+  <script src="./src/js/MobileCodeController.js"></script>
   <script src="./src/js/Light.js"></script>
   <script src="./src/js/AxesHelper.js"></script>
-  <script src="./src/js/MobileSlaveProgram.js"></script>
+  <script src="./src/js/MobileControllerProgram.js"></script>
 </head>
 <body>
+  <div class="code-enter-window" id="code-enter-window">
+    <input type="text" id="code-input" placeholder="Введите код с экрана"/>
+    <button type="button" id="send-code-button">Отправить</button>
+  </div>
+
 <script>
   // create new LightPrograms class Object;
-  let program = new MobileSlaveProgram();
+  let program = new MobileControllerProgram();
 
 </script>
 
