@@ -12,7 +12,6 @@ class MobileControllerProgram {
     this.onLightFireButtonTouchStart = this.onLightFireButtonTouchStart.bind(this);
     this.onLightFireButtonTouchEnd = this.onLightFireButtonTouchEnd.bind(this);
 
-
     this.AccelParameters = {
       Acceleration: new THREE.Vector3(),
       RotationRate: new THREE.Vector3() 
@@ -142,9 +141,8 @@ class MobileControllerProgram {
 
   update(){
     this.Controls.update();
-
-    this.mesh.position.add(this.AccelParameters.Acceleration);
-    this.AccelParameters.Acceleration.set(0,0,0);
+//    this.mesh.position.add(this.AccelParameters.Acceleration);
+//    this.AccelParameters.Acceleration.set(0,0,0);
     
     this.MessagesController.SetPositionMessage = {
       UserID: 0,
@@ -159,17 +157,9 @@ class MobileControllerProgram {
     requestAnimationFrame(this.update);
   }
 
-  showEnterCodeInput() {
-
-  }
-  hideEnterCodeInput() {
-
-  }
-
   onWindowResize(){
     this.Camera.aspect = window.innerWidth / window.innerHeight;
     this.Camera.updateProjectionMatrix();
-
     this.Renderer.setSize( window.innerWidth, window.innerHeight );
   }
 
